@@ -10,6 +10,9 @@ interface DaoUser {
     @Query("SELECT * FROM user WHERE name = :name AND password = :password")
     fun getAnUser(name: String,password : String) : LocalUser
 
+    @Query("SELECT * FROM user WHERE email = :email")
+    fun checkUserEmail(email: String) : LocalUser
+
     @Insert
     fun insert(user : LocalUser)
 

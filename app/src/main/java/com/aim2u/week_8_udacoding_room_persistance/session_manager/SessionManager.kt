@@ -11,14 +11,14 @@ class SessionManager (context: Context) {
         const val USER_NAME = "user_name"
     }
 
-    fun saveSession(session : Boolean){
+    fun saveSession(session: String){
         val editor = prefs.edit()
-        editor.putBoolean(USER_LOGIN, session)
+        editor.putString(USER_LOGIN, session)
         editor.apply()
     }
 
-    fun fetchSession(): Boolean? {
-        return prefs.getBoolean(USER_LOGIN, false)
+    fun fetchSession(): String? {
+        return prefs.getString(USER_LOGIN, null)
     }
 
     fun saveUsername(username : String){

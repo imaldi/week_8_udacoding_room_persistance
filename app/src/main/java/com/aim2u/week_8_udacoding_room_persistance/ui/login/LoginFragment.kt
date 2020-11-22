@@ -31,7 +31,8 @@ class LoginFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         val sessionManager = SessionManager(requireContext())
-        if (sessionManager.fetchSession() != false){
+        if (sessionManager.fetchSession() != null){
+            activity?.finishAffinity()
             startActivity(Intent(requireContext(),MainActivity::class.java))
         }
     }
@@ -56,7 +57,6 @@ class LoginFragment : Fragment() {
         
         btn_register.setOnClickListener {
             findNavController().navigate(R.id.action_loginFragment_to_register1Fragment)
-
         }
 
         btn_login.setOnClickListener {
@@ -67,9 +67,10 @@ class LoginFragment : Fragment() {
             ) {
                 Toast.makeText(requireContext(), "$it", Toast.LENGTH_SHORT).show()
                 if (it != "User belum terdaftar atau password salah") {
-                    sessionManager.saveSession(true)
+                    sessionManager.saveSession("In")
                     sessionManager.saveUsername(editTextTextUsername.text.toString())
                     val intent = Intent(requireContext(), MainActivity::class.java)
+                    activity?.finishAffinity()
                     startActivity(intent)
                 }
             }

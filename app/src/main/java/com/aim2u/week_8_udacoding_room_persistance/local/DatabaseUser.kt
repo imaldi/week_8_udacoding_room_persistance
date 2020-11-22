@@ -13,12 +13,6 @@ abstract class DatabaseUser : RoomDatabase(){
         private var INSTANCE : DatabaseUser? = null
         fun getInstance(context: Context):DatabaseUser?{
             if(INSTANCE == null){
-//                val MIGRATION_1_2 = object : Migration(1, 2) {
-//                    override fun migrate(database: SupportSQLiteDatabase) {
-//                        database.execSQL("CREATE TABLE `Fruit` (`id` INTEGER, `name` TEXT, " +
-//                                "PRIMARY KEY(`id`))")
-//                    }
-//                }
                 synchronized(DatabaseUser::class){
                     INSTANCE = Room.databaseBuilder(context.applicationContext,
                     DatabaseUser::class.java, "userdb.db").fallbackToDestructiveMigration().build()

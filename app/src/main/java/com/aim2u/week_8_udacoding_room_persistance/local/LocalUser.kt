@@ -2,9 +2,12 @@ package com.aim2u.week_8_udacoding_room_persistance.local
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "user")
+@Entity(tableName = "user"
+//    ,indices = arrayOf(Index(value = ["email"], unique = true))
+)
 data class LocalUser(
 
     @PrimaryKey(autoGenerate = true)

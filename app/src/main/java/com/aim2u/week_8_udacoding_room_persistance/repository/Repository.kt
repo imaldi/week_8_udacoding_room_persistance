@@ -90,4 +90,17 @@ class Repository {
                 errorHandler(it)
             })
     }
+
+    fun checkUser(databaseUser: DatabaseUser?, email: String, successHandler: (LocalUser?) -> Unit, errorHandler: (Throwable) -> Unit) {
+        Observable.fromCallable {
+            databaseUser?.userDao()?.checkUserEmail(email)
+        }
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                successHandler(it)
+            },{
+                errorHandler(it)
+            })
+    }
 }
