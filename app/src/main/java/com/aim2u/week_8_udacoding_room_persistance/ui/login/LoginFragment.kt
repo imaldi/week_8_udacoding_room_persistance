@@ -16,14 +16,13 @@ import com.aim2u.week_8_udacoding_room_persistance.session_manager.SessionManage
 import kotlinx.android.synthetic.main.fragment_login.*
 
 
-
 /**
  * A simple [Fragment] subclass.
  * Use the [LoginFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
 class LoginFragment : Fragment() {
-    private lateinit var databaseUser : DatabaseUser
+    private lateinit var databaseUser: DatabaseUser
     private lateinit var loginViewModel: LoginViewModel
     private lateinit var sessionManager: SessionManager
 
@@ -31,9 +30,9 @@ class LoginFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         val sessionManager = SessionManager(requireContext())
-        if (sessionManager.fetchSession() != null){
+        if (sessionManager.fetchSession() != null) {
             activity?.finishAffinity()
-            startActivity(Intent(requireContext(),MainActivity::class.java))
+            startActivity(Intent(requireContext(), MainActivity::class.java))
         }
     }
 
@@ -54,7 +53,7 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         loginViewModel = ViewModelProviders.of(this).get(LoginViewModel::class.java)
-        
+
         btn_register.setOnClickListener {
             findNavController().navigate(R.id.action_loginFragment_to_register1Fragment)
         }
@@ -65,19 +64,26 @@ class LoginFragment : Fragment() {
                 editTextTextUsername.text.toString(),
                 editTextTextPassword.text.toString()
             ) {
-                Toast.makeText(requireContext(), "$it", Toast.LENGTH_SHORT).show()
-                if (it != "User belum terdaftar atau password salah") {
-                    sessionManager.saveSession("In")
-                    sessionManager.saveUsername(editTextTextUsername.text.toString())
-                    val intent = Intent(requireContext(), MainActivity::class.java)
-                    activity?.finishAffinity()
-                    startActivity(intent)
+                if (editTextTextUsername.text.toString().isEmpty()) {
+                    editTextTextUsername.error = "Silahkan Masukkan Username Anda"
+                } else if(editTextTextPassword.text.toString().isEmpty()){
+                    editTextTextPassword.error = "Silahkan Masukkan Passsword Anda"
+                }
+                else {
+                    Toast.makeText(requireContext(), "$it", Toast.LENGTH_SHORT).show()
+                    if (it != "User belum terdaftar atau password salah") {
+                        sessionManager.saveSession("In")
+                        sessionManager.saveUsername(editTextTextUsername.text.toString())
+                        val intent = Intent(requireContext(), MainActivity::class.java)
+                        activity?.finishAffinity()
+                        startActivity(intent)
+                    }
                 }
             }
 
         }
-        loginViewModel.user.observe(viewLifecycleOwner){
-            if (it != null){
+        loginViewModel.user.observe(viewLifecycleOwner) {
+            if (it != null) {
 //                Toast.makeText(requireContext(), "${it.name}", Toast.LENGTH_SHORT).show()
             }
         }
